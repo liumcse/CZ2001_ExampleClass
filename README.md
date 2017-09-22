@@ -1,1 +1,1 @@
-# ExampleClass2
+# ExampleClass
