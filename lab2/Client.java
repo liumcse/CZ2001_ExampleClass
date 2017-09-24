@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Client {
     public static void main(String[] args) {
         LinearProbingHashTable LP;
-        // Here reserved for DoubleHashingHashTable
+        DoubleHashingHashTable DH;
         int entrySize, tableSize, totalCount = 0;
         long startTime, endTime, totalTime = 0;
         double load, averageCount, averageTime;
@@ -24,7 +24,7 @@ public class Client {
         System.out.println(entrySize + " entries have been generated.");
         System.out.println();
 
-        // initialize Linear Probing Hash Table
+        // initialize Hash Table
         LP = new LinearProbingHashTable(tableSize) {
             @Override
             public int hashFunction(int key) {
@@ -32,15 +32,31 @@ public class Client {
                 return key % this.getSize();
             }
         };
+        DH = new DoubleHashingHashTable(getPrime(tableSize)) {
+            @Override
+            public int hashFunction(int key) {
+                // A simple hash function
+                return key % this.getSize();
+            }
+
+            @Override
+            public int doubleHashFunction(int key) {
+                return 1 + (key % (this.getSize() - 1));
+            }
+        };
 
         // here reserved for Double Hashing Hash Table
 
         // insert
-        for (Entry e : entry) LP.insert(e.getKey(), e);
-        System.out.println(entrySize + " entries have been inserted.");
+        for (Entry e : entry) {
+            LP.insert(e.getKey(), e);
+            DH.insert(e.getKey(), e);
+        }
+        System.out.println(entrySize + " entries have been inserted to a Linear Probing Hash Table of size " + LP.getSize());
+        System.out.println(entrySize + " entries have been inserted to a Double Hashing Hash Table of size " + DH.getSize());
         System.out.println();
 
-        // successful search
+        // successful search for Linear Probing Hash Table
         System.out.println("======SUCCESSFUL SEARCH======");
         for (Entry e : entry) {
             int key = e.getKey();
@@ -55,9 +71,24 @@ public class Client {
         System.out.println("Average number of comparisons in Linear Probing is " + averageCount);
         System.out.println("Average time in Linear Probing is " + averageTime + " ns");
         System.out.println();
+        // continue searching for Double Hashing Hash Table
+        for (Entry e : entry) {
+            int key = e.getKey();
+            startTime = System.nanoTime();  // start timing
+            DH.search(key);
+            endTime = System.nanoTime();  // end timing
+            totalTime = endTime - startTime;
+            totalCount += DH.getLastCount();
+        }
+        averageCount = (double)totalCount/entrySize;
+        averageTime = (double)totalTime/entrySize;
+        System.out.println("Average number of comparisons in Double Hashing is " + averageCount);
+        System.out.println("Average time in Double Hashing is " + averageTime + " ns");
+        System.out.println();
 
-        // unsuccessful search
+        // unsuccessful search for Linear Probing Hash Table
         System.out.println("======UNSUCCESSFUL SEARCH======");
+//        int count = 0;
         for (Entry e : entry) {
             int falseKey = e.getKey() - 20000000;
             startTime = System.nanoTime();  // start timing
@@ -65,6 +96,7 @@ public class Client {
             endTime = System.nanoTime();  // end timing
             totalTime = endTime - startTime;
             totalCount += LP.getLastCount();
+//            System.out.println("Unsuccessful LP." + ++count);
         }
         averageCount = (double)totalCount/entrySize;
         averageTime = (double)totalTime/entrySize;
@@ -72,5 +104,39 @@ public class Client {
         System.out.println("Average time in Linear Probing is " + averageTime + " ns");
         System.out.println();
 
+        // continue searching for Double Hashing Hash Table
+        for (Entry e : entry) {
+            int falseKey = e.getKey() - 20000000;
+            startTime = System.nanoTime();  // start timing
+            DH.search(falseKey);
+            endTime = System.nanoTime();  // end timing
+            totalTime = endTime - startTime;
+            totalCount += DH.getLastCount();
+        }
+        averageCount = (double)totalCount/entrySize;
+        averageTime = (double)totalTime/entrySize;
+        System.out.println("Average number of comparisons in Double Hashing is " + averageCount);
+        System.out.println("Average time in Double Hashing is " + averageTime + " ns");
+        System.out.println();
+
+    }
+
+    // get the nearest prime number that is larger than x
+    public static int getPrime(int x) {
+        for (int i = x; i < 2 * x; i++) {
+            if (isPrime(i)) return i;
+        }
+        return x;
+    }
+
+    public static boolean isPrime(int n) {
+        //check if n is a multiple of 2
+        if (n % 2 == 0) return false;
+        //if not, then just check the odds
+        for(int i = 3; i * i <= n; i += 2) {
+            if(n % i == 0)
+                return false;
+        }
+        return true;
     }
 }

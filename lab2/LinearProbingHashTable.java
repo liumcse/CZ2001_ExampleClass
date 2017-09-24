@@ -2,13 +2,13 @@ package lab2;
 
 // Linear Probing Implementation
 public abstract class LinearProbingHashTable {
-    private int comparisonCount;
+    private long comparisonCount;
 
     private final int size;
     private final Entry[] table;
 
     // constructor with size specified.
-    LinearProbingHashTable(int size) {
+    public LinearProbingHashTable(int size) {
         this.size = size;
         // initialize hashCode: an array of Entries
         this.table = new Entry[size];
@@ -23,8 +23,7 @@ public abstract class LinearProbingHashTable {
         // If the hash cell has already been taken (collision)
         while (table[code] != null) {
             // linear probing, increase key by 1
-            code++;
-            if (code == size) code = 0;  // wrap around
+            code = (code + 1) % size;
         }
 
         // until we find an empty cell
@@ -49,12 +48,11 @@ public abstract class LinearProbingHashTable {
                 break;
             }
             else {
-                code++;  // linear probing again, increase key by 1 then search
-                if (code == size) code = 0; // wrap around
+                // linear probing again, increase key by 1 then search
+                code = (code + 1) % size;
             }
         }
 
-//        System.out.println("Comparisons executed: " + getCount());
         return entry;  // return null if key is not found
     }
 
@@ -63,16 +61,8 @@ public abstract class LinearProbingHashTable {
     }
 
     // only valid immediate after searching
-    public int getLastCount() {
+    public long getLastCount() {
         return comparisonCount;
-    }
-
-    // for test only
-    public void print() {
-        for (int i = 0; i < getSize(); i++) {
-            if (table[i] == null) continue;
-            System.out.println("hashCode is " + i + ", " + table[i]);
-        }
     }
 
 }
