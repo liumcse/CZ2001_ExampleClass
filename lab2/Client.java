@@ -7,7 +7,7 @@ public class Client {
         LinearProbingHashTable LP;
         DoubleHashingHashTable DH;
         int entrySize, tableSize, totalCount = 0;
-        long startTime, endTime, totalTime = 0;
+        long startTime, endTime, totalTime;
         double load, averageCount, averageTime;
         Scanner sc = new Scanner(System.in);
 
@@ -58,12 +58,14 @@ public class Client {
 
         // successful search for Linear Probing Hash Table
         System.out.println("======SUCCESSFUL SEARCH======");
+        totalTime = 0;  // reset totalTime
+        totalCount = 0;  // reset totalCount
         for (Entry e : entry) {
             int key = e.getKey();
             startTime = System.nanoTime();  // start timing
             LP.search(key);
             endTime = System.nanoTime();  // end timing
-            totalTime = endTime - startTime;
+            totalTime += endTime - startTime;
             totalCount += LP.getLastCount();
         }
         averageCount = (double)totalCount/entrySize;
@@ -72,12 +74,14 @@ public class Client {
         System.out.println("Average time in Linear Probing is " + averageTime + " ns");
         System.out.println();
         // continue searching for Double Hashing Hash Table
+        totalTime = 0;  // reset totalTime
+        totalCount = 0;  // reset totalCount
         for (Entry e : entry) {
             int key = e.getKey();
             startTime = System.nanoTime();  // start timing
             DH.search(key);
             endTime = System.nanoTime();  // end timing
-            totalTime = endTime - startTime;
+            totalTime += endTime - startTime;
             totalCount += DH.getLastCount();
         }
         averageCount = (double)totalCount/entrySize;
@@ -88,15 +92,15 @@ public class Client {
 
         // unsuccessful search for Linear Probing Hash Table
         System.out.println("======UNSUCCESSFUL SEARCH======");
-//        int count = 0;
+        totalTime = 0;  // reset totalTime
+        totalCount = 0;  // reset totalCount
         for (Entry e : entry) {
             int falseKey = e.getKey() - 20000000;
             startTime = System.nanoTime();  // start timing
             LP.search(falseKey);
             endTime = System.nanoTime();  // end timing
-            totalTime = endTime - startTime;
+            totalTime += endTime - startTime;
             totalCount += LP.getLastCount();
-//            System.out.println("Unsuccessful LP." + ++count);
         }
         averageCount = (double)totalCount/entrySize;
         averageTime = (double)totalTime/entrySize;
@@ -105,12 +109,14 @@ public class Client {
         System.out.println();
 
         // continue searching for Double Hashing Hash Table
+        totalTime = 0;  // reset totalTime
+        totalCount = 0;  // reset totalCount
         for (Entry e : entry) {
             int falseKey = e.getKey() - 20000000;
             startTime = System.nanoTime();  // start timing
             DH.search(falseKey);
             endTime = System.nanoTime();  // end timing
-            totalTime = endTime - startTime;
+            totalTime += endTime - startTime;
             totalCount += DH.getLastCount();
         }
         averageCount = (double)totalCount/entrySize;
