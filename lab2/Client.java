@@ -6,17 +6,18 @@ public class Client {
     public static void main(String[] args) {
         LinearProbingHashTable LP;
         DoubleHashingHashTable DH;
-        int entrySize, tableSize, totalCount = 0;
-        long startTime, endTime, totalTime;
+        int entrySize, tableSize, primeSize;
+        long startTime, endTime, totalTime, totalCount;
         double load, averageCount, averageTime;
         Scanner sc = new Scanner(System.in);
 
         // user input
         System.out.println("Enter number of entries: ");
         entrySize = sc.nextInt();
-        System.out.println("Enter load factor (e.g. 0.25, 0.5, 0.75): ");
+        System.out.println("Enter approximate load factor (e.g. 0.25, 0.5, 0.75): ");
         load = sc.nextDouble();
         tableSize = (int)(entrySize/load);
+        primeSize = getPrime(tableSize);
 
         // initialize entries
         Entry[] entry = new Entry[entrySize];
@@ -25,14 +26,14 @@ public class Client {
         System.out.println();
 
         // initialize Hash Table
-        LP = new LinearProbingHashTable(tableSize) {
+        LP = new LinearProbingHashTable(primeSize) {
             @Override
             public int hashFunction(int key) {
                 // A simple hash function
                 return key % this.getSize();
             }
         };
-        DH = new DoubleHashingHashTable(getPrime(tableSize)) {
+        DH = new DoubleHashingHashTable(primeSize) {
             @Override
             public int hashFunction(int key) {
                 // A simple hash function
@@ -54,6 +55,7 @@ public class Client {
         }
         System.out.println(entrySize + " entries have been inserted to a Linear Probing Hash Table of size " + LP.getSize());
         System.out.println(entrySize + " entries have been inserted to a Double Hashing Hash Table of size " + DH.getSize());
+        System.out.printf("The actual load factor is %f\n", (double)entrySize/primeSize);
         System.out.println();
 
         // successful search for Linear Probing Hash Table
@@ -135,6 +137,7 @@ public class Client {
         return x;
     }
 
+    // test if the number is prime
     public static boolean isPrime(int n) {
         //check if n is a multiple of 2
         if (n % 2 == 0) return false;
