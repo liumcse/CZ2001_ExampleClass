@@ -41,7 +41,7 @@ public abstract class LinearProbingHashTable {
             // if cell is empty, search unsuccessful
             if (table[code] == null) return null;
             // if back to start, search unsuccessful
-            if (comparisonCount > getSize()) return null;
+            if (comparisonCount >= getSize()) return null;
             // validate by comparing keys
             if (key == table[code].getKey()) {
                 entry = table[code];
