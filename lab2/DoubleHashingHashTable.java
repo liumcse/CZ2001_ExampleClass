@@ -43,7 +43,7 @@ public abstract class DoubleHashingHashTable {
             // if cell is empty, search unsuccessful
             if (table[code] == null) return null;
             // if every cell has been searched, search unsuccessful
-            if (comparisonCount > getSize()) return null;
+            if (comparisonCount >= getSize()) return null;
             // validate by comparing keys
             if (key == table[code].getKey()) {
                 entry = table[code];
