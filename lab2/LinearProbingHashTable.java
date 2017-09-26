@@ -1,6 +1,3 @@
-package lab2;
-
-// Linear Probing Implementation
 public abstract class LinearProbingHashTable {
     private long comparisonCount;
 

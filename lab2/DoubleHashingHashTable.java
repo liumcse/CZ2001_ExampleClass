@@ -1,6 +1,3 @@
-package lab2;
-
-// Double Hashing Implementation
 public abstract class DoubleHashingHashTable {
     private long comparisonCount;
 
