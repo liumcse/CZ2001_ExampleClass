@@ -1,3 +1,5 @@
+package lab2;
+
 public abstract class DoubleHashingHashTable {
     private long comparisonCount;
 
