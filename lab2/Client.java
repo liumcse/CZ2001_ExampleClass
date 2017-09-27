@@ -46,8 +46,6 @@ public class Client {
             }
         };
 
-        // here reserved for Double Hashing Hash Table
-
         // insert
         for (Entry e : entry) {
             LP.insert(e.getKey(), e);

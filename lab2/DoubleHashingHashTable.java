@@ -2,7 +2,6 @@ package lab2;
 
 public abstract class DoubleHashingHashTable {
     private long comparisonCount;
-
     private final int size;
     private final Entry[] table;
 

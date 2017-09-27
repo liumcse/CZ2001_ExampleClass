@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Entry {
     private final int phoneNumber;  // phoneNumber will be the key in HashTable
-
     // following is the value
     private final String name;
     private final String IC;
