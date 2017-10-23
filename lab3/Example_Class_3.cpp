@@ -9,8 +9,7 @@ using namespace std;
 /*
 _______________Insertion Sort Algorithm__________________
 */
-unsigned long long InsertionSort(unsigned long long A[], unsigned long long s)
-{
+unsigned long long InsertionSort(unsigned long long A[], unsigned long long s) {
     int comparison = 0;
     for (unsigned long long i = 1; i < s; i++)
     {
@@ -30,8 +29,7 @@ unsigned long long InsertionSort(unsigned long long A[], unsigned long long s)
 /*
 ______________________MERGESORT ALGORITHM_________________________
 */
-void merge(unsigned long long A[], unsigned long long first, unsigned long long last, unsigned long long &comparison)
-{
+void merge(unsigned long long A[], unsigned long long first, unsigned long long last, unsigned long long &comparison) {
     if ((last - first) <= 0) return;
     else
     {
@@ -84,8 +82,7 @@ void merge(unsigned long long A[], unsigned long long first, unsigned long long 
     return;
 }
 
-void MergeSort(unsigned long long int A[],unsigned long long int first, unsigned long long int last, unsigned long long &comparison)
-{
+void MergeSort(unsigned long long int A[],unsigned long long int first, unsigned long long int last, unsigned long long &comparison) {
     if ((last - first) <= 0) {
         return;
     }
