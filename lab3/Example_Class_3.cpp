@@ -10,9 +10,9 @@ using namespace std;
 /*
 _______________Insertion Sort Algorithm__________________
 */
-long InsertionSort(int A[], int s) {
+long InsertionSort(int A[], int size) {
     int comparison = 0;
-    for (int i = 1; i < s; i++) {
+    for (int i = 1; i < size; i++) {
         for (int j = i; j > 0; j--) {
             comparison++;
             if (A[j] < A[j-1]) {
@@ -76,17 +76,17 @@ void MergeSort(int A[],int first, int last, long &comparison) {
     merge(A, first, last, comparison);
 }
 
-void InsertStats(long ins1[], long ins2[], int arrayToBeSorted[], int siz, int cnt) {
+void InsertStats(long timeTaken[], long comparisonTaken[], int arrayToBeSorted[], int siz, int index) {
     // Record start time
     clock_t begin = clock();
     // Execution
-    ins2[cnt] = InsertionSort(arrayToBeSorted, siz);
+    comparisonTaken[index] = InsertionSort(arrayToBeSorted, siz);
     // Record end time
     clock_t end = clock();
-    ins1[cnt] = (long double)(end - begin);
+    timeTaken[index] = (long double)(end - begin);
 }
 
-void MergeStat(long mer1[], long mer2[], int arrayToBeSorted[], int siz, int cnt) {
+void MergeStat(long timeTaken[], long comparisonTaken[], int arrayToBeSorted[], int siz, int index) {
     long comparison = 0;
     // Record start time
     clock_t begin = clock();
@@ -94,8 +94,8 @@ void MergeStat(long mer1[], long mer2[], int arrayToBeSorted[], int siz, int cnt
     MergeSort(arrayToBeSorted, 0, siz - 1,comparison);
     // Record end time
     clock_t end = clock();
-    mer1[cnt] = (long)(end - begin);
-    mer2[cnt] = comparison;
+    timeTaken[index] = (long)(end - begin);
+    comparisonTaken[index] = comparison;
     return;
 }
 
@@ -109,41 +109,107 @@ void GenerateRandomNumber(int A[], int size) {
     }
 }
 
+void GenerateNumbersInIncreasingOrder(int A[], int size) {
+    for (int i = 0; i <= size; i++) {
+        A[i] = i + 1;
+    }
+}
+
+void GenerateNumbersInDecreasingOrder(int A[], int size) {
+    for (int i = 0; i <= size; i++) {
+        A[i] = size - i;
+    }
+}
+
 int main() {
-    int cnt = 0; // counter
     // For result collection
-    int entries[20]; // a table to record the number of entries
-    long mer1[20]; // table with time taken for MergeSort Algorithm
-    long ins1[20]; // table with time taken for Insertion Sort Algorithm
-    int step = 5000;
-    long mer2[20]; // table with comparison for MergeSort Algorithm
-    long ins2[20]; // table with comparison for Insertion Sort Algorithm
+    int entreis[20]; // a table to record the number of entries
+    long timeOfMergeSort[20]; // table with time taken for MergeSort Algorithm
+    long timeOfInsertionSort[20]; // table with time taken for Insertion Sort Algorithm
+    int step = 500;
+    long comparisonOfMergeSort[20]; // table with comparison for MergeSort Algorithm
+    long comparisonOfInsertionSort[20]; // table with comparison for Insertion Sort Algorithm
 
-    int siz = 5000; // size of the first array // increment is at the end of the loop
-    for (int j = 0; j < 2; j++) {
-        entries[cnt] = siz;
+    int size = 500; // size of the first array // increment is at the end of the loop
+
+    /* --- randomly generated dataset --- */
+    for (int j = 0; j < 20; j++) {
+        entreis[j] = size;
         // Initialization
-        int A1[siz];
-        int A2[siz];
+        int arrayForInsersionSort[size];
+        int arrayForMergeSort[size];
 
-        // RANDOM ARRAY
-        GenerateRandomNumber(A1,siz);
-        for (int i = 0; i < siz; i++) A2[i] = A1[i];
+        // random array
+        GenerateRandomNumber(arrayForInsersionSort, size);
+        for (int i = 0; i < size; i++) arrayForMergeSort[i] = arrayForInsersionSort[i];
 
         // generate results
-        MergeStat(mer1,mer2,A1,siz,cnt);
-        InsertStats(ins1, ins2, A2, siz, cnt);
-        cnt++;
-        siz += step; // step size
+        MergeStat(timeOfMergeSort,comparisonOfMergeSort,arrayForInsersionSort,size, j);
+        InsertStats(timeOfInsertionSort, comparisonOfInsertionSort, arrayForMergeSort, size, j);
+        size += step; // step size
     }
 
-
-    for(int i = 0; i < 2; i++) {
+    cout << "================Randomly generated dataset================" << endl;
+    for(int i = 0; i < 20; i++) {
         cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
         cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
-        cout << setw(10) << entries[i] << setw(15) << ins2[i] << setw(10) << ins1[i];
-        cout << setw(15) << mer2[i] << setw(10) << mer1[i] << endl;
+        cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
+        cout << setw(15) << comparisonOfMergeSort[i] << setw(10) << timeOfMergeSort[i] << endl;
     }
+
+    size = 500;  // restore size
+
+    /* --- dataset of integers in increasing order --- */
+    for (int j = 0; j < 20; j++) {
+        entreis[j] = size;
+        // Initialization
+        int arrayForInsersionSort[size];
+        int arrayForMergeSort[size];
+
+        // array of integers sorted in increasing order
+        GenerateNumbersInIncreasingOrder(arrayForInsersionSort, size);
+        for (int i = 0; i < size; i++) arrayForMergeSort[i] = arrayForInsersionSort[i];
+
+        // generate results
+        MergeStat(timeOfMergeSort,comparisonOfMergeSort,arrayForInsersionSort,size, j);
+        InsertStats(timeOfInsertionSort, comparisonOfInsertionSort, arrayForMergeSort, size, j);
+        size += step; // step size
+    }
+    cout << "================Increasing integers dataset================" << endl;
+    for(int i = 0; i < 20; i++) {
+        cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
+        cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
+        cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
+        cout << setw(15) << comparisonOfMergeSort[i] << setw(10) << timeOfMergeSort[i] << endl;
+    }
+
+    size = 500;  // restore size
+
+    /* --- dataset of integers in decreasing order --- */
+    for (int j = 0; j < 20; j++) {
+        entreis[j] = size;
+        // Initialization
+        int arrayForInsersionSort[size];
+        int arrayForMergeSort[size];
+
+        // array of integers sorted in increasing order
+        GenerateNumbersInDecreasingOrder(arrayForInsersionSort, size);
+        for (int i = 0; i < size; i++) arrayForMergeSort[i] = arrayForInsersionSort[i];
+
+        // generate results
+        MergeStat(timeOfMergeSort,comparisonOfMergeSort,arrayForInsersionSort,size, j);
+        InsertStats(timeOfInsertionSort, comparisonOfInsertionSort, arrayForMergeSort, size, j);
+        size += step; // step size
+    }
+    cout << "================Decreasing integers dataset================" << endl;
+    for(int i = 0; i < 20; i++) {
+        cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
+        cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
+        cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
+        cout << setw(15) << comparisonOfMergeSort[i] << setw(10) << timeOfMergeSort[i] << endl;
+    }
+
+
 
     return 0;
 }
