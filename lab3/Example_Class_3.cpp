@@ -11,7 +11,7 @@ using namespace std;
 _______________Insertion Sort Algorithm__________________
 */
 long InsertionSort(int A[], int size) {
-    int comparison = 0;
+    long comparison = 0;
     for (int i = 1; i < size; i++) {
         for (int j = i; j > 0; j--) {
             comparison++;
@@ -42,7 +42,7 @@ void merge(int A[], int first, int last, long &comparison) {
             else {
                 temp[c++] = A[j++];
             }
-            comparison++;
+            comparison++;  // comparison increase
         }
 
         if (i <= mid) {
@@ -126,14 +126,14 @@ int main() {
     int entreis[20]; // a table to record the number of entries
     long timeOfMergeSort[20]; // table with time taken for MergeSort Algorithm
     long timeOfInsertionSort[20]; // table with time taken for Insertion Sort Algorithm
-    int step = 500;
+    int step = 10000;
     long comparisonOfMergeSort[20]; // table with comparison for MergeSort Algorithm
     long comparisonOfInsertionSort[20]; // table with comparison for Insertion Sort Algorithm
 
-    int size = 500; // size of the first array // increment is at the end of the loop
+    int size = 10000; // size of the first array // increment is at the end of the loop
 
     /* --- randomly generated dataset --- */
-    for (int j = 0; j < 20; j++) {
+    for (int j = 0; j < 10; j++) {
         entreis[j] = size;
         // Initialization
         int arrayForInsersionSort[size];
@@ -150,17 +150,17 @@ int main() {
     }
 
     cout << "================Randomly generated dataset================" << endl;
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 10; i++) {
         cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
         cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
         cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
         cout << setw(15) << comparisonOfMergeSort[i] << setw(10) << timeOfMergeSort[i] << endl;
     }
 
-    size = 500;  // restore size
+    size = 10000;  // restore size
 
     /* --- dataset of integers in increasing order --- */
-    for (int j = 0; j < 20; j++) {
+    for (int j = 0; j < 10; j++) {
         entreis[j] = size;
         // Initialization
         int arrayForInsersionSort[size];
@@ -176,17 +176,17 @@ int main() {
         size += step; // step size
     }
     cout << "================Increasing integers dataset================" << endl;
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 10; i++) {
         cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
         cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
         cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
         cout << setw(15) << comparisonOfMergeSort[i] << setw(10) << timeOfMergeSort[i] << endl;
     }
 
-    size = 500;  // restore size
+    size = 10000;  // restore size
 
     /* --- dataset of integers in decreasing order --- */
-    for (int j = 0; j < 20; j++) {
+    for (int j = 0; j < 10; j++) {
         entreis[j] = size;
         // Initialization
         int arrayForInsersionSort[size];
@@ -202,7 +202,7 @@ int main() {
         size += step; // step size
     }
     cout << "================Decreasing integers dataset================" << endl;
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < 10; i++) {
         cout << left << setw(10) <<  "Entries" << setw(15) << "Insertion";
         cout << setw(10) << "Time(ms)" << setw(15) << "MergeSort" << setw(10) << "Time(ms)" << endl;
         cout << setw(10) << entreis[i] << setw(15) << comparisonOfInsertionSort[i] << setw(10) << timeOfInsertionSort[i];
