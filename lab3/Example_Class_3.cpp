@@ -3,7 +3,6 @@
 #include<ctime>
 #include<iomanip>
 #include<chrono>
-#include<random>
 
 using namespace std;
 
@@ -100,12 +99,12 @@ void MergeStat(long timeTaken[], long comparisonTaken[], int arrayToBeSorted[], 
 }
 
 void GenerateRandomNumber(int A[], int size) {
-    mt19937 rng;
-    rng.seed(std::random_device()());
-    uniform_int_distribution<mt19937::result_type> dist(0, size);
+    // mt19937 rng;
+    // rng.seed(std::random_device()());
+    // uniform_int_distribution<mt19937::result_type> dist(0, size);
 
     for(int i = 0; i < size; i++) {
-        A[i] = dist(rng);
+        A[i] = rand() % (size + 1);
     }
 }
 
@@ -123,12 +122,12 @@ void GenerateNumbersInDecreasingOrder(int A[], int size) {
 
 int main() {
     // For result collection
-    int entreis[20]; // a table to record the number of entries
-    long timeOfMergeSort[20]; // table with time taken for MergeSort Algorithm
-    long timeOfInsertionSort[20]; // table with time taken for Insertion Sort Algorithm
+    int entreis[10]; // a table to record the number of entries
+    long timeOfMergeSort[10]; // table with time taken for MergeSort Algorithm
+    long timeOfInsertionSort[10]; // table with time taken for Insertion Sort Algorithm
     int step = 10000;
-    long comparisonOfMergeSort[20]; // table with comparison for MergeSort Algorithm
-    long comparisonOfInsertionSort[20]; // table with comparison for Insertion Sort Algorithm
+    long comparisonOfMergeSort[10]; // table with comparison for MergeSort Algorithm
+    long comparisonOfInsertionSort[10]; // table with comparison for Insertion Sort Algorithm
 
     int size = 10000; // size of the first array // increment is at the end of the loop
 
